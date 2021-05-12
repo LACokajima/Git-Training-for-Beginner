@@ -9,6 +9,9 @@ on:
       - main
   workflow_dispatch:
 
+env:
+  APP_PATH: './src/Web'
+
 jobs:
   build:
     runs-on: windows-latest
@@ -22,10 +25,10 @@ jobs:
         dotnet-version: '3.1.301'
 
     - name: Build with dotnet
-      run: dotnet build --configuration Release
+      run: dotnet build ${{ env.APP_PATH }} --configuration Release
 
     - name: dotnet publish
-      run: dotnet publish -c Release -o ${{env.DOTNET_ROOT}}/myapp
+      run: dotnet publish ${{ env.APP_PATH }} -c Release -o ${{env.DOTNET_ROOT}}/myapp
 
     - name: Upload artifact for deployment job
       uses: actions/upload-artifact@v2
@@ -52,5 +55,5 @@ jobs:
       with:
         app-name: 'Training-server'
         slot-name: 'production'
-        publish-profile: ${{ secrets.AzureAppService_PublishProfile_1e1acf28a78e4db2b4fe3744b85bdf20 }}
+        publish-profile: ${{ secrets.AzureAppService_PublishProfile_1E1ACF28A78E4DB2B4FE3744B85BDF20 }}
         package: .
